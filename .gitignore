@@ -1,0 +1,19 @@
+# Environnement Python et caches
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+# Données brutes, nettoyées et agrégées (volumineuses)
+data/raw/*
+!data/raw/.gitkeep
+data/clean/*
+!data/clean/.gitkeep
+data/cleans/*
+!data/cleans/.gitkeep
+data/marts/*
+!data/marts/.gitkeep
+data/*.db
+# Graphiques générés
+bi/*
+!bi/.gitkeep

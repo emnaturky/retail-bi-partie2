@@ -1,0 +1,1547 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "122454cc",
+   "metadata": {},
+   "source": [
+    "Partie 1 — Exploration des données\n",
+    "*****************************************"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 30,
+   "id": "136797db",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import pandas as pd\n",
+    "from pathlib import Path"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "3d0cd9c0",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Fichier trouvé : True\n",
+      "Chemin utilisé : C:\\Users\\User\\projects\\retail-bi\\data\\raw\\Online Retail.xlsx\n"
+     ]
+    }
+   ],
+   "source": [
+    "file_path = Path(\"../data/raw/Online Retail.xlsx\")\n",
+    "\n",
+    "print(\"Fichier trouvé :\", file_path.exists())\n",
+    "print(\"Chemin utilisé :\", file_path.resolve())"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "ba05f0a4",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Données chargées avec succès !\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Lire le fichier Excel\n",
+    "df = pd.read_excel(file_path)\n",
+    "print(\"Données chargées avec succès !\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "03db6c68",
+   "metadata": {},
+   "source": [
+    "Comprendre la structure du dataset\n",
+    "*************************************"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "id": "ac10426d",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>InvoiceNo</th>\n",
+       "      <th>StockCode</th>\n",
+       "      <th>Description</th>\n",
+       "      <th>Quantity</th>\n",
+       "      <th>InvoiceDate</th>\n",
+       "      <th>UnitPrice</th>\n",
+       "      <th>CustomerID</th>\n",
+       "      <th>Country</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>536365</td>\n",
+       "      <td>85123A</td>\n",
+       "      <td>WHITE HANGING HEART T-LIGHT HOLDER</td>\n",
+       "      <td>6</td>\n",
+       "      <td>2010-12-01 08:26:00</td>\n",
+       "      <td>2.55</td>\n",
+       "      <td>17850.0</td>\n",
+       "      <td>United Kingdom</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>536365</td>\n",
+       "      <td>71053</td>\n",
+       "      <td>WHITE METAL LANTERN</td>\n",
+       "      <td>6</td>\n",
+       "      <td>2010-12-01 08:26:00</td>\n",
+       "      <td>3.39</td>\n",
+       "      <td>17850.0</td>\n",
+       "      <td>United Kingdom</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>536365</td>\n",
+       "      <td>84406B</td>\n",
+       "      <td>CREAM CUPID HEARTS COAT HANGER</td>\n",
+       "      <td>8</td>\n",
+       "      <td>2010-12-01 08:26:00</td>\n",
+       "      <td>2.75</td>\n",
+       "      <td>17850.0</td>\n",
+       "      <td>United Kingdom</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>536365</td>\n",
+       "      <td>84029G</td>\n",
+       "      <td>KNITTED UNION FLAG HOT WATER BOTTLE</td>\n",
+       "      <td>6</td>\n",
+       "      <td>2010-12-01 08:26:00</td>\n",
+       "      <td>3.39</td>\n",
+       "      <td>17850.0</td>\n",
+       "      <td>United Kingdom</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>536365</td>\n",
+       "      <td>84029E</td>\n",
+       "      <td>RED WOOLLY HOTTIE WHITE HEART.</td>\n",
+       "      <td>6</td>\n",
+       "      <td>2010-12-01 08:26:00</td>\n",
+       "      <td>3.39</td>\n",
+       "      <td>17850.0</td>\n",
+       "      <td>United Kingdom</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "  InvoiceNo StockCode                          Description  Quantity  \\\n",
+       "0    536365    85123A   WHITE HANGING HEART T-LIGHT HOLDER         6   \n",
+       "1    536365     71053                  WHITE METAL LANTERN         6   \n",
+       "2    536365    84406B       CREAM CUPID HEARTS COAT HANGER         8   \n",
+       "3    536365    84029G  KNITTED UNION FLAG HOT WATER BOTTLE         6   \n",
+       "4    536365    84029E       RED WOOLLY HOTTIE WHITE HEART.         6   \n",
+       "\n",
+       "          InvoiceDate  UnitPrice  CustomerID         Country  \n",
+       "0 2010-12-01 08:26:00       2.55     17850.0  United Kingdom  \n",
+       "1 2010-12-01 08:26:00       3.39     17850.0  United Kingdom  \n",
+       "2 2010-12-01 08:26:00       2.75     17850.0  United Kingdom  \n",
+       "3 2010-12-01 08:26:00       3.39     17850.0  United Kingdom  \n",
+       "4 2010-12-01 08:26:00       3.39     17850.0  United Kingdom  "
+      ]
+     },
+     "execution_count": 5,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "#   Afficher les premières lignes\n",
+    "df.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "e067753b",
+   "metadata": {},
+   "outputs": [
+    {
+     "ename": "NameError",
+     "evalue": "name 'df' is not defined",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[31m---------------------------------------------------------------------------\u001b[39m",
+      "\u001b[31mNameError\u001b[39m                                 Traceback (most recent call last)",
+      "\u001b[36mCell\u001b[39m\u001b[36m \u001b[39m\u001b[32mIn[3]\u001b[39m\u001b[32m, line 2\u001b[39m\n\u001b[32m      1\u001b[39m \u001b[38;5;66;03m#   le nombre de lignes et de colonnes\u001b[39;00m\n\u001b[32m----> \u001b[39m\u001b[32m2\u001b[39m print(\u001b[33m\"Nombre de lignes :\"\u001b[39m, df.shape[\u001b[32m0\u001b[39m])\n\u001b[32m      3\u001b[39m print(\u001b[33m\"Nombre de colonnes :\"\u001b[39m, df.shape[\u001b[32m1\u001b[39m])\n",
+      "\u001b[31mNameError\u001b[39m: name 'df' is not defined"
+     ]
+    }
+   ],
+   "source": [
+    "#   le nombre de lignes et de colonnes\n",
+    "print(\"Nombre de lignes :\", df.shape[0])\n",
+    "print(\"Nombre de colonnes :\", df.shape[1])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "id": "28a8772c",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Noms des colonnes : ['InvoiceNo', 'StockCode', 'Description', 'Quantity', 'InvoiceDate', 'UnitPrice', 'CustomerID', 'Country']\n"
+     ]
+    }
+   ],
+   "source": [
+    "#   Afficher les noms des colonnes\n",
+    "print(\"Noms des colonnes :\", df.columns.tolist())"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "id": "2cf40444",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "<class 'pandas.DataFrame'>\n",
+      "RangeIndex: 541909 entries, 0 to 541908\n",
+      "Data columns (total 8 columns):\n",
+      " #   Column       Non-Null Count   Dtype         \n",
+      "---  ------       --------------   -----         \n",
+      " 0   InvoiceNo    541909 non-null  object        \n",
+      " 1   StockCode    541909 non-null  object        \n",
+      " 2   Description  540455 non-null  object        \n",
+      " 3   Quantity     541909 non-null  int64         \n",
+      " 4   InvoiceDate  541909 non-null  datetime64[us]\n",
+      " 5   UnitPrice    541909 non-null  float64       \n",
+      " 6   CustomerID   406829 non-null  float64       \n",
+      " 7   Country      541909 non-null  str           \n",
+      "dtypes: datetime64[us](1), float64(2), int64(1), object(3), str(1)\n",
+      "memory usage: 33.1+ MB\n"
+     ]
+    }
+   ],
+   "source": [
+    "#   Vérifier les types de données\n",
+    "df.info()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "de3fff3d",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>count</th>\n",
+       "      <th>unique</th>\n",
+       "      <th>top</th>\n",
+       "      <th>freq</th>\n",
+       "      <th>mean</th>\n",
+       "      <th>min</th>\n",
+       "      <th>25%</th>\n",
+       "      <th>50%</th>\n",
+       "      <th>75%</th>\n",
+       "      <th>max</th>\n",
+       "      <th>std</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>InvoiceNo</th>\n",
+       "      <td>541909.0</td>\n",
+       "      <td>25900.0</td>\n",
+       "      <td>573585.0</td>\n",
+       "      <td>1114.0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>StockCode</th>\n",
+       "      <td>541909</td>\n",
+       "      <td>4070</td>\n",
+       "      <td>85123A</td>\n",
+       "      <td>2313</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Description</th>\n",
+       "      <td>540455</td>\n",
+       "      <td>4223</td>\n",
+       "      <td>WHITE HANGING HEART T-LIGHT HOLDER</td>\n",
+       "      <td>2369</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Quantity</th>\n",
+       "      <td>541909.0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>9.55225</td>\n",
+       "      <td>-80995.0</td>\n",
+       "      <td>1.0</td>\n",
+       "      <td>3.0</td>\n",
+       "      <td>10.0</td>\n",
+       "      <td>80995.0</td>\n",
+       "      <td>218.081158</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>InvoiceDate</th>\n",
+       "      <td>541909</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>2011-07-04 13:34:57.156386</td>\n",
+       "      <td>2010-12-01 08:26:00</td>\n",
+       "      <td>2011-03-28 11:34:00</td>\n",
+       "      <td>2011-07-19 17:17:00</td>\n",
+       "      <td>2011-10-19 11:27:00</td>\n",
+       "      <td>2011-12-09 12:50:00</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>UnitPrice</th>\n",
+       "      <td>541909.0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>4.611114</td>\n",
+       "      <td>-11062.06</td>\n",
+       "      <td>1.25</td>\n",
+       "      <td>2.08</td>\n",
+       "      <td>4.13</td>\n",
+       "      <td>38970.0</td>\n",
+       "      <td>96.759853</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>CustomerID</th>\n",
+       "      <td>406829.0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>15287.69057</td>\n",
+       "      <td>12346.0</td>\n",
+       "      <td>13953.0</td>\n",
+       "      <td>15152.0</td>\n",
+       "      <td>16791.0</td>\n",
+       "      <td>18287.0</td>\n",
+       "      <td>1713.600303</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Country</th>\n",
+       "      <td>541909</td>\n",
+       "      <td>38</td>\n",
+       "      <td>United Kingdom</td>\n",
+       "      <td>495478</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "                count   unique                                 top    freq  \\\n",
+       "InvoiceNo    541909.0  25900.0                            573585.0  1114.0   \n",
+       "StockCode      541909     4070                              85123A    2313   \n",
+       "Description    540455     4223  WHITE HANGING HEART T-LIGHT HOLDER    2369   \n",
+       "Quantity     541909.0      NaN                                 NaN     NaN   \n",
+       "InvoiceDate    541909      NaN                                 NaN     NaN   \n",
+       "UnitPrice    541909.0      NaN                                 NaN     NaN   \n",
+       "CustomerID   406829.0      NaN                                 NaN     NaN   \n",
+       "Country        541909       38                      United Kingdom  495478   \n",
+       "\n",
+       "                                   mean                  min  \\\n",
+       "InvoiceNo                           NaN                  NaN   \n",
+       "StockCode                           NaN                  NaN   \n",
+       "Description                         NaN                  NaN   \n",
+       "Quantity                        9.55225             -80995.0   \n",
+       "InvoiceDate  2011-07-04 13:34:57.156386  2010-12-01 08:26:00   \n",
+       "UnitPrice                      4.611114            -11062.06   \n",
+       "CustomerID                  15287.69057              12346.0   \n",
+       "Country                             NaN                  NaN   \n",
+       "\n",
+       "                             25%                  50%                  75%  \\\n",
+       "InvoiceNo                    NaN                  NaN                  NaN   \n",
+       "StockCode                    NaN                  NaN                  NaN   \n",
+       "Description                  NaN                  NaN                  NaN   \n",
+       "Quantity                     1.0                  3.0                 10.0   \n",
+       "InvoiceDate  2011-03-28 11:34:00  2011-07-19 17:17:00  2011-10-19 11:27:00   \n",
+       "UnitPrice                   1.25                 2.08                 4.13   \n",
+       "CustomerID               13953.0              15152.0              16791.0   \n",
+       "Country                      NaN                  NaN                  NaN   \n",
+       "\n",
+       "                             max          std  \n",
+       "InvoiceNo                    NaN          NaN  \n",
+       "StockCode                    NaN          NaN  \n",
+       "Description                  NaN          NaN  \n",
+       "Quantity                 80995.0   218.081158  \n",
+       "InvoiceDate  2011-12-09 12:50:00          NaN  \n",
+       "UnitPrice                38970.0    96.759853  \n",
+       "CustomerID               18287.0  1713.600303  \n",
+       "Country                      NaN          NaN  "
+      ]
+     },
+     "execution_count": 9,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "#   Afficher les statistiques descriptives\n",
+    "df.describe(include=\"all\").T"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "194f9ff0",
+   "metadata": {},
+   "source": [
+    "Premier diagnostic de qualité\n",
+    "********************************"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 33,
+   "id": "47f5ede9",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "CustomerID     135080\n",
+       "Description      1454\n",
+       "StockCode           0\n",
+       "InvoiceNo           0\n",
+       "Quantity            0\n",
+       "InvoiceDate         0\n",
+       "UnitPrice           0\n",
+       "Country             0\n",
+       "dtype: int64"
+      ]
+     },
+     "execution_count": 33,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "#   Valeurs manquantes\n",
+    "df.isna().sum().sort_values(ascending=False)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "id": "e4baa2fc",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Lignes dupliquées : 5268\n"
+     ]
+    }
+   ],
+   "source": [
+    "#   Lignes dupliquées\n",
+    "print(\"Lignes dupliquées :\", df.duplicated().sum())"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "id": "041b7ac0",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Quantités négatives : 10624\n",
+      "Prix négatifs : 2\n"
+     ]
+    }
+   ],
+   "source": [
+    "#   Quantités et prix\n",
+    "print(\"Quantités négatives :\", (df[\"Quantity\"] < 0).sum())\n",
+    "print(\"Prix négatifs :\", (df[\"UnitPrice\"] < 0).sum())"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 34,
+   "id": "3328a934",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Nombre de lignes d'annulation : 9288\n"
+     ]
+    },
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>InvoiceNo</th>\n",
+       "      <th>StockCode</th>\n",
+       "      <th>Description</th>\n",
+       "      <th>Quantity</th>\n",
+       "      <th>InvoiceDate</th>\n",
+       "      <th>UnitPrice</th>\n",
+       "      <th>CustomerID</th>\n",
+       "      <th>Country</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>141</th>\n",
+       "      <td>C536379</td>\n",
+       "      <td>D</td>\n",
+       "      <td>Discount</td>\n",
+       "      <td>-1</td>\n",
+       "      <td>2010-12-01 09:41:00</td>\n",
+       "      <td>27.50</td>\n",
+       "      <td>14527.0</td>\n",
+       "      <td>United Kingdom</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>154</th>\n",
+       "      <td>C536383</td>\n",
+       "      <td>35004C</td>\n",
+       "      <td>SET OF 3 COLOURED&nbsp;&nbsp;FLYING DUCKS</td>\n",
+       "      <td>-1</td>\n",
+       "      <td>2010-12-01 09:49:00</td>\n",
+       "      <td>4.65</td>\n",
+       "      <td>15311.0</td>\n",
+       "      <td>United Kingdom</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>235</th>\n",
+       "      <td>C536391</td>\n",
+       "      <td>22556</td>\n",
+       "      <td>PLASTERS IN TIN CIRCUS PARADE</td>\n",
+       "      <td>-12</td>\n",
+       "      <td>2010-12-01 10:24:00</td>\n",
+       "      <td>1.65</td>\n",
+       "      <td>17548.0</td>\n",
+       "      <td>United Kingdom</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>236</th>\n",
+       "      <td>C536391</td>\n",
+       "      <td>21984</td>\n",
+       "      <td>PACK OF 12 PINK PAISLEY TISSUES</td>\n",
+       "      <td>-24</td>\n",
+       "      <td>2010-12-01 10:24:00</td>\n",
+       "      <td>0.29</td>\n",
+       "      <td>17548.0</td>\n",
+       "      <td>United Kingdom</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>237</th>\n",
+       "      <td>C536391</td>\n",
+       "      <td>21983</td>\n",
+       "      <td>PACK OF 12 BLUE PAISLEY TISSUES</td>\n",
+       "      <td>-24</td>\n",
+       "      <td>2010-12-01 10:24:00</td>\n",
+       "      <td>0.29</td>\n",
+       "      <td>17548.0</td>\n",
+       "      <td>United Kingdom</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "    InvoiceNo StockCode                       Description  Quantity  \\\n",
+       "141   C536379         D                          Discount        -1   \n",
+       "154   C536383    35004C   SET OF 3 COLOURED  FLYING DUCKS        -1   \n",
+       "235   C536391     22556    PLASTERS IN TIN CIRCUS PARADE        -12   \n",
+       "236   C536391     21984  PACK OF 12 PINK PAISLEY TISSUES        -24   \n",
+       "237   C536391     21983  PACK OF 12 BLUE PAISLEY TISSUES        -24   \n",
+       "\n",
+       "            InvoiceDate  UnitPrice  CustomerID         Country  \n",
+       "141 2010-12-01 09:41:00      27.50     14527.0  United Kingdom  \n",
+       "154 2010-12-01 09:49:00       4.65     15311.0  United Kingdom  \n",
+       "235 2010-12-01 10:24:00       1.65     17548.0  United Kingdom  \n",
+       "236 2010-12-01 10:24:00       0.29     17548.0  United Kingdom  \n",
+       "237 2010-12-01 10:24:00       0.29     17548.0  United Kingdom  "
+      ]
+     },
+     "execution_count": 34,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "#   Identifier les commandes annulées\n",
+    "df[\"InvoiceNo\"] = df[\"InvoiceNo\"].astype(str)\n",
+    "\n",
+    "cancelled = df[df[\"InvoiceNo\"].str.startswith(\"C\")]\n",
+    "\n",
+    "print(\"Nombre de lignes d'annulation :\", len(cancelled))\n",
+    "cancelled.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 35,
+   "id": "3bff6bd8",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Valeurs manquantes</th>\n",
+       "      <th>Pourcentage manquant (%)</th>\n",
+       "      <th>Valeurs distinctes</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>InvoiceNo</th>\n",
+       "      <td>0</td>\n",
+       "      <td>0.00</td>\n",
+       "      <td>25900</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>StockCode</th>\n",
+       "      <td>0</td>\n",
+       "      <td>0.00</td>\n",
+       "      <td>4070</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Description</th>\n",
+       "      <td>1454</td>\n",
+       "      <td>0.27</td>\n",
+       "      <td>4223</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Quantity</th>\n",
+       "      <td>0</td>\n",
+       "      <td>0.00</td>\n",
+       "      <td>722</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>InvoiceDate</th>\n",
+       "      <td>0</td>\n",
+       "      <td>0.00</td>\n",
+       "      <td>23260</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>UnitPrice</th>\n",
+       "      <td>0</td>\n",
+       "      <td>0.00</td>\n",
+       "      <td>1630</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>CustomerID</th>\n",
+       "      <td>135080</td>\n",
+       "      <td>24.93</td>\n",
+       "      <td>4372</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Country</th>\n",
+       "      <td>0</td>\n",
+       "      <td>0.00</td>\n",
+       "      <td>38</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "             Valeurs manquantes  Pourcentage manquant (%)  Valeurs distinctes\n",
+       "InvoiceNo                     0                      0.00               25900\n",
+       "StockCode                     0                      0.00                4070\n",
+       "Description                1454                      0.27                4223\n",
+       "Quantity                      0                      0.00                 722\n",
+       "InvoiceDate                   0                      0.00               23260\n",
+       "UnitPrice                     0                      0.00                1630\n",
+       "CustomerID               135080                     24.93                4372\n",
+       "Country                       0                      0.00                  38"
+      ]
+     },
+     "execution_count": 35,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "#   Calculer les indicateurs de qualité\n",
+    "quality_report = pd.DataFrame({\n",
+    "    \"Valeurs manquantes\": df.isna().sum(),\n",
+    "    \"Pourcentage manquant (%)\": (\n",
+    "        df.isna().mean() * 100\n",
+    "    ).round(2),\n",
+    "    \"Valeurs distinctes\": df.nunique()\n",
+    "})\n",
+    "\n",
+    "quality_report"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 36,
+   "id": "39a86866",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Fichier exporté : ..\\data\\raw\\online_retail.csv\n",
+      "Fichier présent : True\n"
+     ]
+    }
+   ],
+   "source": [
+    "#    Exporter les données en CSV\n",
+    "output_path = Path(\"../data/raw/online_retail.csv\")\n",
+    "\n",
+    "df.to_csv(output_path, index=False)\n",
+    "\n",
+    "print(\"Fichier exporté :\", output_path)\n",
+    "print(\"Fichier présent :\", output_path.exists())"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "7d3b3cf2",
+   "metadata": {},
+   "source": [
+    "Partie 2 — Nettoyage et transformation\n",
+    "*********************************************"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 37,
+   "id": "73172e80",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Lignes avant : 541909\n",
+      "Doublons exacts : 5268\n",
+      "Lignes après : 536641\n"
+     ]
+    }
+   ],
+   "source": [
+    "#Étape 1 — Supprimer les doublons exacts\n",
+    "df_clean = df.copy()\n",
+    "\n",
+    "print(\"Lignes avant :\", len(df_clean))\n",
+    "print(\"Doublons exacts :\", df_clean.duplicated().sum())\n",
+    "\n",
+    "df_clean = df_clean.drop_duplicates()\n",
+    "\n",
+    "print(\"Lignes après :\", len(df_clean))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 38,
+   "id": "18daf73d",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Annulations : 9251\n",
+      "Lignes restantes : 527390\n"
+     ]
+    }
+   ],
+   "source": [
+    "#Étape 2 — Séparer les annulations\n",
+    "cancelled = df_clean[\n",
+    "    df_clean[\"InvoiceNo\"].str.startswith(\"C\", na=False)\n",
+    "].copy()\n",
+    "\n",
+    "ventes = df_clean[\n",
+    "    ~df_clean[\"InvoiceNo\"].str.startswith(\"C\", na=False)\n",
+    "].copy()\n",
+    "\n",
+    "print(\"Annulations :\", len(cancelled))\n",
+    "print(\"Lignes restantes :\", len(ventes))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 39,
+   "id": "a0234557",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Quantités négatives : 1336\n",
+      "Prix nuls ou négatifs : 2512\n",
+      "Lignes après filtrage : 524878\n"
+     ]
+    }
+   ],
+   "source": [
+    "#Étape 3 — Écarter les quantités et prix invalides\n",
+    "print(\"Quantités négatives :\", (ventes[\"Quantity\"] < 0).sum())\n",
+    "print(\"Prix nuls ou négatifs :\", (ventes[\"UnitPrice\"] <= 0).sum())\n",
+    "\n",
+    "ventes = ventes[\n",
+    "    (ventes[\"Quantity\"] > 0) &\n",
+    "    (ventes[\"UnitPrice\"] > 0)\n",
+    "].copy()\n",
+    "\n",
+    "print(\"Lignes après filtrage :\", len(ventes))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "06eb5d4a",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Lignes après filtrage : 472253\n"
+     ]
+    }
+   ],
+   "source": [
+    "#Étape 4 — Écarter les codes produit techniques\n",
+    "\n",
+    "# Convertir les codes produit en texte\n",
+    "ventes[\"StockCode\"] = ventes[\"StockCode\"].astype(\"string\").str.strip()\n",
+    "\n",
+    "# Conserver les codes composés exactement de 5 chiffres\n",
+    "masque_produits = ventes[\"StockCode\"].str.fullmatch(\n",
+    "    r\"\\d{5}\",\n",
+    "    na=False\n",
+    ")\n",
+    "\n",
+    "ventes = ventes[masque_produits].copy()\n",
+    "\n",
+    "print(\"Lignes après filtrage :\", len(ventes))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 41,
+   "id": "15d70457",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Clients manquants : 113976\n",
+      "Clients manquants après traitement : 0\n"
+     ]
+    }
+   ],
+   "source": [
+    "#Étape 5 — Traiter les clients et les descriptions manquants\n",
+    "print(\"Clients manquants :\", ventes[\"CustomerID\"].isna().sum())\n",
+    "\n",
+    "ventes[\"CustomerID\"] = ventes[\"CustomerID\"].fillna(0)\n",
+    "\n",
+    "print(\"Clients manquants après traitement :\",\n",
+    "      ventes[\"CustomerID\"].isna().sum())"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 42,
+   "id": "1ddc3729",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>InvoiceNo</th>\n",
+       "      <th>StockCode</th>\n",
+       "      <th>Description</th>\n",
+       "      <th>Quantity</th>\n",
+       "      <th>UnitPrice</th>\n",
+       "      <th>montant</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>536365</td>\n",
+       "      <td>71053</td>\n",
+       "      <td>WHITE METAL LANTERN</td>\n",
+       "      <td>6</td>\n",
+       "      <td>3.39</td>\n",
+       "      <td>20.34</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>5</th>\n",
+       "      <td>536365</td>\n",
+       "      <td>22752</td>\n",
+       "      <td>SET 7 BABUSHKA NESTING BOXES</td>\n",
+       "      <td>2</td>\n",
+       "      <td>7.65</td>\n",
+       "      <td>15.30</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>6</th>\n",
+       "      <td>536365</td>\n",
+       "      <td>21730</td>\n",
+       "      <td>GLASS STAR FROSTED T-LIGHT HOLDER</td>\n",
+       "      <td>6</td>\n",
+       "      <td>4.25</td>\n",
+       "      <td>25.50</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>7</th>\n",
+       "      <td>536366</td>\n",
+       "      <td>22633</td>\n",
+       "      <td>HAND WARMER UNION JACK</td>\n",
+       "      <td>6</td>\n",
+       "      <td>1.85</td>\n",
+       "      <td>11.10</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>8</th>\n",
+       "      <td>536366</td>\n",
+       "      <td>22632</td>\n",
+       "      <td>HAND WARMER RED POLKA DOT</td>\n",
+       "      <td>6</td>\n",
+       "      <td>1.85</td>\n",
+       "      <td>11.10</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "  InvoiceNo StockCode                        Description  Quantity  UnitPrice  \\\n",
+       "1    536365     71053                WHITE METAL LANTERN         6       3.39   \n",
+       "5    536365     22752       SET 7 BABUSHKA NESTING BOXES         2       7.65   \n",
+       "6    536365     21730  GLASS STAR FROSTED T-LIGHT HOLDER         6       4.25   \n",
+       "7    536366     22633             HAND WARMER UNION JACK         6       1.85   \n",
+       "8    536366     22632          HAND WARMER RED POLKA DOT         6       1.85   \n",
+       "\n",
+       "   montant  \n",
+       "1    20.34  \n",
+       "5    15.30  \n",
+       "6    25.50  \n",
+       "7    11.10  \n",
+       "8    11.10  "
+      ]
+     },
+     "execution_count": 42,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "#Étape 6 — Normaliser les descriptions et calculer le montant\n",
+    "ventes[\"Description\"] = (\n",
+    "    ventes[\"Description\"]\n",
+    "    .str.strip()\n",
+    "    .str.upper()\n",
+    ")\n",
+    "\n",
+    "ventes[\"montant\"] = ventes[\"Quantity\"] * ventes[\"UnitPrice\"]\n",
+    "\n",
+    "ventes[[\"InvoiceNo\", \"StockCode\", \"Description\",\n",
+    "        \"Quantity\", \"UnitPrice\", \"montant\"]].head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 43,
+   "id": "a46c28f4",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Ventes exportées : 472253\n",
+      "Annulations exportées : 9251\n"
+     ]
+    }
+   ],
+   "source": [
+    "#Étape 7 — Enregistrer les données nettoyées\n",
+    "from pathlib import Path\n",
+    "\n",
+    "output_dir = Path(\"../data/clean\")\n",
+    "output_dir.mkdir(parents=True, exist_ok=True)\n",
+    "\n",
+    "ventes.to_csv(output_dir / \"ventes.csv\", index=False)\n",
+    "cancelled.to_csv(output_dir / \"annulations.csv\", index=False)\n",
+    "\n",
+    "print(\"Ventes exportées :\", len(ventes))\n",
+    "print(\"Annulations exportées :\", len(cancelled))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 44,
+   "id": "97deea4b",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Nombre de ventes : 472253\n",
+      "Nombre d'annulations : 9251\n",
+      "Doublons restants : 0\n",
+      "Quantités non positives : 0\n",
+      "Prix non positifs : 0\n",
+      "Clients manquants : 0\n",
+      "Descriptions manquantes : 0\n"
+     ]
+    }
+   ],
+   "source": [
+    "#Vérifier les données nettoyées\n",
+    "print(\"Nombre de ventes :\", len(ventes))\n",
+    "print(\"Nombre d'annulations :\", len(cancelled))\n",
+    "print(\"Doublons restants :\", ventes.duplicated().sum())\n",
+    "print(\"Quantités non positives :\", (ventes[\"Quantity\"] <= 0).sum())\n",
+    "print(\"Prix non positifs :\", (ventes[\"UnitPrice\"] <= 0).sum())\n",
+    "print(\"Clients manquants :\", ventes[\"CustomerID\"].isna().sum())\n",
+    "print(\"Descriptions manquantes :\", ventes[\"Description\"].isna().sum())"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "120222b2",
+   "metadata": {},
+   "source": [
+    "TP 1.3 : calculer les indicateurs clés (KPI) avec Pandas\n",
+    "**********************************************************"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 45,
+   "id": "a0d9ba2c",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Dossier courant : c:\\Users\\User\\projects\\retail-bi\\notebooks\n",
+      "Fichier trouvé : True\n"
+     ]
+    }
+   ],
+   "source": [
+    "#Étape 1 — Charger les données nettoyées\n",
+    "from pathlib import Path\n",
+    "import pandas as pd\n",
+    "\n",
+    "file_path = Path(\"../data/clean/ventes.csv\")\n",
+    "\n",
+    "print(\"Dossier courant :\", Path.cwd())\n",
+    "print(\"Fichier trouvé :\", file_path.exists())"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 46,
+   "id": "88ed76ee",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Dimensions : (472253, 9)\n"
+     ]
+    },
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>InvoiceNo</th>\n",
+       "      <th>StockCode</th>\n",
+       "      <th>Description</th>\n",
+       "      <th>Quantity</th>\n",
+       "      <th>InvoiceDate</th>\n",
+       "      <th>UnitPrice</th>\n",
+       "      <th>CustomerID</th>\n",
+       "      <th>Country</th>\n",
+       "      <th>montant</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>536365</td>\n",
+       "      <td>71053</td>\n",
+       "      <td>WHITE METAL LANTERN</td>\n",
+       "      <td>6</td>\n",
+       "      <td>2010-12-01 08:26:00</td>\n",
+       "      <td>3.39</td>\n",
+       "      <td>17850.0</td>\n",
+       "      <td>United Kingdom</td>\n",
+       "      <td>20.34</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>536365</td>\n",
+       "      <td>22752</td>\n",
+       "      <td>SET 7 BABUSHKA NESTING BOXES</td>\n",
+       "      <td>2</td>\n",
+       "      <td>2010-12-01 08:26:00</td>\n",
+       "      <td>7.65</td>\n",
+       "      <td>17850.0</td>\n",
+       "      <td>United Kingdom</td>\n",
+       "      <td>15.30</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>536365</td>\n",
+       "      <td>21730</td>\n",
+       "      <td>GLASS STAR FROSTED T-LIGHT HOLDER</td>\n",
+       "      <td>6</td>\n",
+       "      <td>2010-12-01 08:26:00</td>\n",
+       "      <td>4.25</td>\n",
+       "      <td>17850.0</td>\n",
+       "      <td>United Kingdom</td>\n",
+       "      <td>25.50</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>536366</td>\n",
+       "      <td>22633</td>\n",
+       "      <td>HAND WARMER UNION JACK</td>\n",
+       "      <td>6</td>\n",
+       "      <td>2010-12-01 08:28:00</td>\n",
+       "      <td>1.85</td>\n",
+       "      <td>17850.0</td>\n",
+       "      <td>United Kingdom</td>\n",
+       "      <td>11.10</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>536366</td>\n",
+       "      <td>22632</td>\n",
+       "      <td>HAND WARMER RED POLKA DOT</td>\n",
+       "      <td>6</td>\n",
+       "      <td>2010-12-01 08:28:00</td>\n",
+       "      <td>1.85</td>\n",
+       "      <td>17850.0</td>\n",
+       "      <td>United Kingdom</td>\n",
+       "      <td>11.10</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "  InvoiceNo StockCode                        Description  Quantity  \\\n",
+       "0    536365     71053                WHITE METAL LANTERN         6   \n",
+       "1    536365     22752       SET 7 BABUSHKA NESTING BOXES         2   \n",
+       "2    536365     21730  GLASS STAR FROSTED T-LIGHT HOLDER         6   \n",
+       "3    536366     22633             HAND WARMER UNION JACK         6   \n",
+       "4    536366     22632          HAND WARMER RED POLKA DOT         6   \n",
+       "\n",
+       "           InvoiceDate  UnitPrice  CustomerID         Country  montant  \n",
+       "0  2010-12-01 08:26:00       3.39     17850.0  United Kingdom    20.34  \n",
+       "1  2010-12-01 08:26:00       7.65     17850.0  United Kingdom    15.30  \n",
+       "2  2010-12-01 08:26:00       4.25     17850.0  United Kingdom    25.50  \n",
+       "3  2010-12-01 08:28:00       1.85     17850.0  United Kingdom    11.10  \n",
+       "4  2010-12-01 08:28:00       1.85     17850.0  United Kingdom    11.10  "
+      ]
+     },
+     "execution_count": 46,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "ventes = pd.read_csv(\n",
+    "    file_path,\n",
+    "    dtype={\n",
+    "        \"InvoiceNo\": str,\n",
+    "        \"StockCode\": str\n",
+    "    }\n",
+    ")\n",
+    "\n",
+    "print(\"Dimensions :\", ventes.shape)\n",
+    "ventes.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 47,
+   "id": "12e98f3b",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Chiffre d'affaires total : 9345497.67 £\n",
+      "Nombre de lignes : 472253\n",
+      "Nombre de factures : 19549\n",
+      "Nombre de produits différents : 2868\n",
+      "Nombre de pays : 38\n"
+     ]
+    }
+   ],
+   "source": [
+    "#Étape 2 — Calculer les premiers KPI\n",
+    "\n",
+    "if \"montant\" not in ventes.columns:\n",
+    "    ventes[\"montant\"] = ventes[\"Quantity\"] * ventes[\"UnitPrice\"]\n",
+    "\n",
+    "print(\"Chiffre d'affaires total :\", round(ventes[\"montant\"].sum(), 2), \"£\")\n",
+    "print(\"Nombre de lignes :\", len(ventes))\n",
+    "print(\"Nombre de factures :\", ventes[\"InvoiceNo\"].nunique())\n",
+    "print(\"Nombre de produits différents :\", ventes[\"StockCode\"].nunique())\n",
+    "print(\"Nombre de pays :\", ventes[\"Country\"].nunique())"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 48,
+   "id": "6d7c4c4b",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>mois</th>\n",
+       "      <th>montant</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>2010-12</td>\n",
+       "      <td>681867.68</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>2011-01</td>\n",
+       "      <td>582246.11</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>2011-02</td>\n",
+       "      <td>452685.03</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>2011-03</td>\n",
+       "      <td>619860.72</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>2011-04</td>\n",
+       "      <td>457415.58</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>5</th>\n",
+       "      <td>2011-05</td>\n",
+       "      <td>669162.07</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>6</th>\n",
+       "      <td>2011-06</td>\n",
+       "      <td>678033.73</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>7</th>\n",
+       "      <td>2011-07</td>\n",
+       "      <td>616710.93</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>8</th>\n",
+       "      <td>2011-08</td>\n",
+       "      <td>659840.75</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>9</th>\n",
+       "      <td>2011-09</td>\n",
+       "      <td>957036.68</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>10</th>\n",
+       "      <td>2011-10</td>\n",
+       "      <td>1029270.37</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>11</th>\n",
+       "      <td>2011-11</td>\n",
+       "      <td>1352956.62</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>12</th>\n",
+       "      <td>2011-12</td>\n",
+       "      <td>588411.40</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "       mois     montant\n",
+       "0   2010-12   681867.68\n",
+       "1   2011-01   582246.11\n",
+       "2   2011-02   452685.03\n",
+       "3   2011-03   619860.72\n",
+       "4   2011-04   457415.58\n",
+       "5   2011-05   669162.07\n",
+       "6   2011-06   678033.73\n",
+       "7   2011-07   616710.93\n",
+       "8   2011-08   659840.75\n",
+       "9   2011-09   957036.68\n",
+       "10  2011-10  1029270.37\n",
+       "11  2011-11  1352956.62\n",
+       "12  2011-12   588411.40"
+      ]
+     },
+     "execution_count": 48,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "#Étape 3 — Calculer le chiffre d’affaires par mois\n",
+    "ventes[\"InvoiceDate\"] = pd.to_datetime(ventes[\"InvoiceDate\"])\n",
+    "\n",
+    "ventes[\"mois\"] = ventes[\"InvoiceDate\"].dt.to_period(\"M\")\n",
+    "\n",
+    "ca_mensuel = (\n",
+    "    ventes.groupby(\"mois\")[\"montant\"]\n",
+    "    .sum()\n",
+    "    .reset_index()\n",
+    ")\n",
+    "\n",
+    "ca_mensuel[\"mois\"] = ca_mensuel[\"mois\"].astype(str)\n",
+    "\n",
+    "ca_mensuel"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "dd4f6f68",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "retail-bi (3.13.7)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.13.7"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
